@@ -23,12 +23,13 @@ const createNewWorkout = (newWorkout) => {
     return createdWorkout;
 };
 
-const updateWorkoutById = () => {
-    return;
+const updateWorkoutById = (workoutId, changes) => {
+    const updatedWorkout = Workout.updateWorkoutById(workoutId, changes);
+    return updatedWorkout;
 };
 
-const deleteWorkoutById = () => {
-    return;
+const deleteWorkoutById = (workoutId) => {
+    Workout.deleteWorkoutById(workoutId);
 };
 
 module.exports = { getAllWorkouts, getWorkoutById, createNewWorkout, updateWorkoutById, deleteWorkoutById };

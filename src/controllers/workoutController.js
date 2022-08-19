@@ -31,17 +31,27 @@ const createNewWorkout = (req, res) => {
     };
 
     const createdWorkout = workoutService.createNewWorkout(newWorkout);
-    res.status(201).send( { status: "OK", data: createdWorkout });
+    res.status(201).send({ status: "OK", data: createdWorkout });
 };
 
 const updateWorkoutById = (req, res) => {
-    const updatedWorkout = workoutService.updateWorkoutById();
-    res.send("Update an existing workout");
+    const { body, params: { workoutId } } = req;
+    if (!workoutId) {
+        return;
+    }
+
+    const updatedWorkout = workoutService.updateWorkoutById(workoutId, body);
+    res.send({ status: "OK", data: updatedWorkout });
 };
 
 const deleteWorkoutById = (req, res) => {
-    const deletedWorkout = workoutService.deleteWorkoutById();
-    res.send("Delete an existing workout");
+    const { params: { workoutId } } = req;
+    if (!workoutId) {
+        return;
+    }
+
+    workoutService.deleteWorkoutById(workoutId);
+    res.status(204).send({ status: "OK" });
 };
 
 module.exports = { getAllWorkouts, getWorkoutById, createNewWorkout, updateWorkoutById, deleteWorkoutById };

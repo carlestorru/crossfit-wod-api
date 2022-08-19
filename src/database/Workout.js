@@ -24,4 +24,31 @@ const createNewWorkout = (newWorkout) => {
     return newWorkout;
 };
 
-module.exports = { getAllWorkouts, getWorkoutById, createNewWorkout };
+const updateWorkoutById = (workoutId, changes) => {
+    const indexToUpdate = DB.workouts.findIndex((workout) => workout.id === workoutId);
+    if (indexToUpdate === -1) {
+        return;
+    }
+
+    const updatedWorkout = {
+        ...DB.workouts[indexToUpdate],
+        ...changes,
+        updatedAt: new Date().toLocaleString("en-US", { timeZone: "UTC" }),
+    };
+    
+    DB.workouts[indexToUpdate] = updatedWorkout;
+    saveToDatabase(DB);
+    return updatedWorkout;
+};
+
+const deleteWorkoutById = (workoutId) => {
+    const indexToDel = DB.workouts.findIndex((workout) => workout.id === workoutId);
+    if (indexToDel === -1) {
+        return;
+    }
+
+    DB.workouts.splice(indexToDel, 1);
+    saveToDatabase(DB);
+};
+
+module.exports = { getAllWorkouts, getWorkoutById, createNewWorkout, updateWorkoutById, deleteWorkoutById };
